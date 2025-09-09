@@ -4,9 +4,12 @@ import { useState } from "react";
 
 const Task = ({ task }) => {
   const dispatch = useDispatch();
+
+  // ✅ Local state to handle editing mode
   const [isEditing, setIsEditing] = useState(false);
   const [newDesc, setNewDesc] = useState(task.description);
 
+  // ✅ Save handler - updates Redux store and exits editing mode
   const handleSave = () => {
     if (newDesc.trim()) {
       dispatch(editTask({ id: task.id, desc: newDesc }));
@@ -17,12 +20,15 @@ const Task = ({ task }) => {
   return (
     <div className="flex items-center justify-between bg-white shadow p-3 rounded">
       <div className="flex items-center gap-3">
+        {/* ✅ Toggle task completion */}
         <input
           type="checkbox"
           checked={task.isDone}
           onChange={() => dispatch(toggleTask(task.id))}
           className="h-4 w-4"
         />
+
+        {/* ✅ Edit mode vs display mode */}
         {isEditing ? (
           <input
             type="text"
@@ -36,6 +42,8 @@ const Task = ({ task }) => {
           </p>
         )}
       </div>
+
+      {/* ✅ Right-side action buttons */}
       <div className="flex gap-2">
         {isEditing ? (
           <button
